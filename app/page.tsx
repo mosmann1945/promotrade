@@ -30,7 +30,9 @@ export default function Dashboard() {
     setStats((rotDB??[]).map((rot:Roteiro) => {
       const lojas = (lojasDB??[]).filter((l:Loja) => l.roteiro_id===rot.id)
       const carga = calcularCargaRoteiro(lojas, marcasDB??[], p)
-      const cidades = [...new Set(lojas.map((l:Loja) => l.cidade).filter(Boolean))]
+      const cidades = Array.from(
+  new Set(lojas.map((l: Loja) => l.cidade).filter(Boolean))
+)
       return { ...rot, lojas, carga, cidades }
     }))
     setLoading(false)
