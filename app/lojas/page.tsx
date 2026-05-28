@@ -31,8 +31,13 @@ export default function LojasPage() {
     setLoading(false)
   }
 
-  const cidades = [...new Set(lojas.map(l=>l.cidade).filter(Boolean))].sort() as string[]
-  const redes   = [...new Set(lojas.map(l=>l.rede).filter(Boolean))].sort() as string[]
+  const cidades = Array.from(
+  new Set(lojas.map(l => l.cidade).filter(Boolean))
+).sort() as string[]
+
+const redes = Array.from(
+  new Set(lojas.map(l => l.rede).filter(Boolean))
+).sort() as string[]
 
   let filtered = lojas
   if(search)    filtered = filtered.filter(l=>l.nome.toLowerCase().includes(search.toLowerCase())||(l.endereco??'').toLowerCase().includes(search.toLowerCase()))
