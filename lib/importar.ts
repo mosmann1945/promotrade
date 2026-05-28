@@ -23,7 +23,13 @@ export async function importarCSVRoteiros(file:File):Promise<ImportResult> {
   const marcaMap = Object.fromEntries(marcasDB.map(m=>[m.codigo,m.id]))
 
   const rows = data as Record<string,string>[]
-  const rotNums = [...new Set(rows.map(r=>parseInt(r['ROT']??'')).filter(n=>!isNaN(n)))]
+  const rotNums = Array.from(
+  new Set(
+    rows
+      .map(r => parseInt(r['ROT'] ?? ''))
+      .filter(n => !isNaN(n))
+  )
+)
 
   for(const num of rotNums)
     await supabase.from('roteiros').upsert({numero:num,descricao:`Roteiro ${num}`,ativo:true},{onConflict:'numero'})
