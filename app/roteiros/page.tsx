@@ -38,15 +38,21 @@ export default function RoteirosPage() {
     setParams(p); setMarcas(marcasDB??[])
     setRoteiros((rotDB??[]).map((rot:Roteiro) => {
       const lojas = (lojasDB??[]).filter((l:Loja)=>l.roteiro_id===rot.id)
-      return { ...rot, lojas, carga: calcularCargaRoteiro(lojas,marcasDB??[],p),
-               cidades: Array.from(
-  new Set(lojas.map((l: Loja) => l.cidade).filter(Boolean))
-)] }
+      return {
+  ...rot,
+  lojas,
+  carga: calcularCargaRoteiro(lojas, marcasDB ?? [], p),
+  cidades: Array.from(
+    new Set(lojas.map((l: Loja) => l.cidade).filter(Boolean))
+  )
+}
     }))
     setLoading(false)
   }
 
-  const cidades = [...new Set(roteiros.flatMap(r=>r.cidades))].sort() as string[]
+  const cidades = Array.from(
+  new Set(roteiros.flatMap(r => r.cidades))
+).sort() as string[]
   let filtered = roteiros
   if(selRot)    filtered = filtered.filter(r=>r.numero===+selRot)
   if(selStatus) filtered = filtered.filter(r=>r.carga.status===selStatus)
