@@ -39,7 +39,9 @@ export default function RoteirosPage() {
     setRoteiros((rotDB??[]).map((rot:Roteiro) => {
       const lojas = (lojasDB??[]).filter((l:Loja)=>l.roteiro_id===rot.id)
       return { ...rot, lojas, carga: calcularCargaRoteiro(lojas,marcasDB??[],p),
-               cidades: [...new Set(lojas.map((l:Loja)=>l.cidade).filter(Boolean))] }
+               cidades: Array.from(
+  new Set(lojas.map((l: Loja) => l.cidade).filter(Boolean))
+)] }
     }))
     setLoading(false)
   }
